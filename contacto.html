@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Contacto — IES 6001</title>
+
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <style>
+    .hero {
+      background: #007bff; /* azul del botón Campus Virtual */
+      color: #fff;
+      padding: 28px 0;
+    }
+    .hero__inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero__logo {
+      max-height: 68px;
+      width: auto;
+    }
+    .form-help {
+      font-size: .875rem;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Encabezado azul con logo y título -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__inner">
+        <!-- Cambiá la ruta del logo si tu archivo está en otra carpeta -->
+        <img src="img/logo.png" alt="IES 6001" class="hero__logo">
+        <h1 class="m-0">IES N° 6001 "Gral. Manuel Belgrano" - Salta</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido -->
+  <main class="py-5">
+    <div class="container">
+      <h2 class="mb-4">Contacto</h2>
+
+      <form action="#" method="post" novalidate>
+        <div class="form-group">
+          <label for="nombre">Tu nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Tu correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="asunto">Asunto</label>
+          <input type="text" class="form-control" id="asunto" name="asunto" required>
+        </div>
+
+        <div class="form-group">
+          <label for="mensaje">Tu mensaje (opcional)</label>
+          <textarea class="form-control" id="mensaje" name="mensaje" rows="6"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar</button>
+
+        <p class="mt-3 form-help">
+          A la brevedad nos pondremos en contacto contigo a través del correo electrónico proporcionado.
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+          integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+</body>
+</html>

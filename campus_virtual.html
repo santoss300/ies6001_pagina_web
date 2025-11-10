@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Campus Virtual — IES 6001</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+
+  <style>
+    .hero {
+      background: #007bff; /* Azul botón Campus */
+      color: #fff;
+      padding: 28px 0;
+    }
+    .hero__inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .hero__logo { max-height: 68px; width: auto; }
+
+    .login-wrapper {
+      min-height: calc(100vh - 124px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: .75rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    }
+    .login-card .card-header {
+      background: #ffffff;
+      border-bottom: none;
+      text-align: center;
+      padding-bottom: 0;
+    }
+    .small-help { font-size: .875rem; color: #6c757d; }
+  </style>
+</head>
+<body>
+
+  <!-- Banner -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__inner">
+        <img src="img/logo.png" alt="IES 6001" class="hero__logo">
+        <h1 class="m-0">IES N° 6001 "Gral. Manuel Belgrano" - Salta</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login -->
+  <main class="login-wrapper">
+    <div class="container">
+      <div class="card login-card mx-auto">
+        <div class="card-header">
+          <h2 class="h4 mb-3">Campus Virtual</h2>
+          <p class="small-help mb-0">Ingresá con tu usuario y contraseña</p>
+        </div>
+        <div class="card-body">
+          <form action="#" method="post" novalidate>
+            <div class="form-group">
+              <label for="usuario">Usuario o correo</label>
+              <input type="text" class="form-control" id="usuario" name="usuario" placeholder="tu_usuario@ies6001.edu.ar" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="togglePass" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="remember">
+              <label class="form-check-label" for="remember">Recordarme en este dispositivo</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+
+            <div class="d-flex justify-content-between mt-3">
+              <a href="#" class="small">¿Olvidaste tu contraseña?</a>
+              <a href="#" class="small">¿No tenés cuenta? Registrate</a>
+            </div>
+          </form>
+
+          <hr>
+          <p class="small-help mb-0">
+            En caso de problemas contactarse con el área de soporte a ignacioruiz@live.com
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+          integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+
+  <script>
+    // Mostrar/ocultar contraseña
+    (function () {
+      var btn = document.getElementById('togglePass');
+      var input = document.getElementById('password');
+      if (btn && input) {
+        btn.addEventListener('click', function(){
+          var isPass = input.type === 'password';
+          input.type = isPass ? 'text' : 'password';
+          btn.textContent = isPass ? 'Ocultar' : 'Mostrar';
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

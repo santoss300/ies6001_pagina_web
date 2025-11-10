@@ -1,0 +1,452 @@
+<!doctype html> 
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <title>IES 6001 - Instituto de Educación Superior - Salta</title>
+
+  <style>
+    .career-aside {
+      background: #0d1117;
+      color: #e3e9f0;
+      border-left: 4px solid #007bff;
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.25);
+    }
+    .career-aside h3 { color:#fff; font-weight:700; font-size:1.25rem; margin-bottom:.5rem; }
+    .career-aside p, .career-aside li { color:#cfd8e3; line-height:1.6; }
+    .career-info { display:none; }
+    .career-info.active { display:block; animation:fadeIn .4s ease; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+
+    /* === CARRUSEL === */
+    .main__wrapper {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      overflow: hidden;
+    }
+    .main-carousel {
+      width: 100%;
+      height: 100%;
+    }
+    .carousel-cell {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .carousel-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 55%; /* RECORTA DESDE ARRIBA */
+      display: block;
+    }
+
+    /* === TÍTULO CENTRADO, MÁS ARRIBA, PEQUEÑO === */
+    .main__inner_container {
+      position: absolute;
+      bottom: 50px; /* Más arriba */
+      left: 50%;
+      transform: translateX(-60%); /* Ajuste visual leve a la izquierda */
+      text-align: center;
+      z-index: 10;
+      width: 80%;
+      max-width: 750px;
+      padding: 16px 22px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+    }
+    .main__inner_headline {
+      color: white !important;
+      font-size: 2.1rem !important;
+      font-weight: 800 !important;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.7);
+      margin: 0 0 6px 0;
+      letter-spacing: -0.6px;
+      line-height: 1.1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .main__inner_description {
+      color: #e8e8e8 !important;
+      font-size: 1rem !important;
+      font-weight: 500;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .main__wrapper { height: 450px; }
+      .main__inner_headline { font-size: 1.9rem !important; }
+      .main__inner_description { font-size: 0.95rem !important; }
+      .main__inner_container { padding: 14px 18px; }
+    }
+    @media (max-width: 768px) {
+      .main__wrapper { height: 380px; }
+      .main__inner_headline { font-size: 1.75rem !important; }
+      .main__inner_description { font-size: 0.9rem !important; }
+      .main__inner_container { bottom: 45px; }
+    }
+    @media (max-width: 576px) {
+      .main__wrapper { height: 320px; }
+      .main__inner_headline { font-size: 1.55rem !important; }
+      .main__inner_description { font-size: 0.85rem !important; }
+      .main__inner_container { padding: 12px 16px; border-radius: 12px; bottom: 40px; }
+    }
+
+    /* Botones y puntos */
+    .flickity-prev-next-button {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+    .flickity-prev-next-button:hover {
+      background: rgba(255, 255, 255, 0.7);
+      transform: scale(1.15);
+    }
+    .flickity-prev-next-button .flickity-button-icon {
+      fill: #222;
+    }
+    .flickity-page-dots {
+      bottom: 25px;
+    }
+    .flickity-page-dots .dot {
+      width: 12px;
+      height: 12px;
+      background: white;
+      opacity: 0.7;
+      margin: 0 6px;
+      transition: all 0.3s ease;
+    }
+    .flickity-page-dots .dot.is-selected {
+      opacity: 1;
+      transform: scale(1.4);
+      background: #007bff;
+    }
+
+    /* Flecha abajo */
+    .main__inner_trigger {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1.3rem;
+      animation: bounce 2s infinite;
+      z-index: 11;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-6px); }
+      60% { transform: translateX(-50%) translateY(-3px); }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrapper">
+
+  <header id="header" class="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light for__pc">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="img/logo.png" alt="Logo IES 6001" style="height: 50px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="institucional.html">Institucional</a></li>
+            <li class="nav-item"><a class="nav-link" href="ubicacion.html">Ubicación</a></li>
+            <li class="nav-item"><a class="nav-link" href="autoridades.html">Autoridades</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+            <li class="nav-item"><a class="btn btn-sm btn-primary nav-btn" href="campus_virtual.html">Campus Virtual</a></li>
+            <li class="nav-item"><i class="fas fa-search fa-flip-horizontal"></i></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <a class="menu-toggle rounded for__mob" href="#"><i class="fas fa-bars"></i></a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+        <li class="sidebar-brand"><a class="js-scroll-trigger" href="#page-top">IES 6001</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Institucional</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Carreras</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Noticias</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Ingreso 2026</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Noticias</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Calendario</a></li>
+        <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="main" class="main">
+    <div class="main__wrapper">
+      <!-- CARRUSEL AUTOMÁTICO -->
+      <div class="main-carousel" data-flickity='{
+        "autoPlay": 4000,
+        "wrapAround": true,
+        "imagesLoaded": true,
+        "pageDots": true,
+        "prevNextButtons": true,
+        "fade": true,
+        "pauseAutoPlayOnHover": false
+      }'>        
+        <div class="carousel-cell">
+          <img src="img/recibidos.jpg" alt="Egresados Recibidos" class="carousel-img">
+        </div>
+        <div class="carousel-cell">
+          <img src="img/noche.jpg" alt="Acto de Noche" class="carousel-img">
+        </div>
+      </div>
+
+      <!-- TÍTULO CENTRADO, MÁS ARRIBA -->
+      <div class="main__inner_container">
+        <h1 class="main__inner_headline">Instituto de Educación Superior N° 6001</h1>
+        <p class="main__inner_description">Formando docentes y técnicos en la provincia de Salta. Conoce nuestra oferta académica.</p>
+      </div>
+
+      <!-- Flecha abajo -->
+      <span class="main__inner_trigger fas fa-angle-down"></span>
+    </div>
+  </section>
+
+  <main id="main__content">
+    <section class="news__card">
+      <div class="news__card_wrapper">
+        <div class="news__card_container">
+          <div class="news__card_block">
+            <div class="news__card_grid">
+              <!-- Noticia 1 -->
+              <div class="news__card_cell one">
+                <figure class="js-wrap image image--cover card-fourth__background card-fourth__background-image image--loaded">
+                  <img src="img/flick_img1.jpg" class="image__img" alt="">
+                </figure>
+                <div class="card-fourth__background card-fourth__background-color"></div>
+                <div class="card-fourth__content">
+                  <div class="card-fourth__cat">
+                    <h3 class="label-text"><a href="#" class="button button--black card-fourth__label">Noticias</a></h3>
+                  </div>
+                  <div class="news__card_inner_two green__half">
+                    <h3>
+                      <a href="https://red.infd.edu.ar/el-infod-y-la-unir-invitan-a-una-clase-abierta-sobre-inteligencia-artificial-y-prevencion-y-mediacion-de-conflictos/" target="_blank">
+                        El INFoD y la UNIR invitan a una clase abierta sobre Inteligencia Artificial y prevención y mediación de conflictos
+                      </a>
+                    </h3>
+                    <h3>
+                      <a href="https://red.infd.edu.ar/el-infod-y-la-unir-invitan-a-una-clase-abierta-sobre-inteligencia-artificial-y-prevencion-y-mediacion-de-conflictos/" target="_blank" style="font-size: .875rem; line-height: 1.71429; letter-spacing: .10714em;">Leer Más <span class="fas fa-long-arrow-alt-right"></span></a>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Noticia 2 -->
+              <div class="news__card_cell">
+                <figure class="js-wrap image image--cover card-fourth__background card-fourth__background-image image--loaded">
+                  <img src="img/docentes.jpg" class="image__img" alt="">
+                </figure>
+                <div class="card-fourth__background card-fourth__background-color"></div>
+                <div class="card-fourth__content">
+                  <div class="card-fourth__cat">
+                    <h3 class="label-text"><a href="#" class="button button--black card-fourth__label">NOTICIAS</a></h3>
+                  </div>
+                  <div class="news__card_inner_two green__half">
+                    <h3>
+                      <a href="https://red.infd.edu.ar/nueva-fecha-el-relevamiento-nacional-de-personal-educativo-renpe-arranca-el-10-de-noviembre/" target="_blank">
+                        Nueva fecha: el Relevamiento Nacional de Personal Educativo (ReNPE) arranca el 10 de noviembre
+                      </a>
+                    </h3>
+                    <h3>
+                      <a href="https://red.infd.edu.ar/nueva-fecha-el-relevamiento-nacional-de-personal-educativo-renpe-arranca-el-10-de-noviembre/" target="_blank" style="font-size: .875rem; line-height: 1.71429; letter-spacing: .10714em;">Leer Más <span class="fas fa-long-arrow-alt-right"></span></a>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Noticia 3 -->
+              <div class="news__card_cell one">
+                <figure class="js-wrap image image--cover card-fourth__background card-fourth__background-image image--loaded">
+                  <img src="img/francia1.jpg" class="image__img" alt="">
+                </figure>
+                <div class="card-fourth__background card-fourth__background-color"></div>
+                <div class="card-fourth__content">
+                  <div class="card-fourth__cat">
+                    <h3 class="label-text"><a href="#" class="button button--black card-fourth__label">Noticias</a></h3>
+                  </div>
+                  <div class="news__card_inner_two green__half">
+                    <h3>
+                      <a href="https://red.infd.edu.ar/nueva-convocatoria-becas-ministerio-de-capital-humano-gobierno-de-francia-para-asistentes-de-idioma-argentinos-en-francia/" target="_blank">
+                        Nueva convocatoria: Becas Ministerio de Capital Humano-Gobierno de Francia para asistentes de idioma argentinos en Francia
+                      </a>
+                    </h3>
+                    <h3>
+                      <a href="https://red.infd.edu.ar/nueva-convocatoria-becas-ministerio-de-capital-humano-gobierno-de-francia-para-asistentes-de-idioma-argentinos-en-francia/" target="_blank" style="font-size: .875rem; line-height: 1.71429; letter-spacing: .10714em;">Leer Más <span class="fas fa-long-arrow-alt-right"></span></a>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="home__tag home_tag_bottom_text">
+              <p>Para ver todas las noticias, dirigirse a: <a href="https://red.infd.edu.ar/">https://red.infd.edu.ar/</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Oferta Académica -->
+    <section class="theme__block">
+      <div class="theme__block_container">
+        <h2 class="theme__block_tag">Nuestra Oferta Académica</h2>
+
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-6">
+            <ul class="theme__block_list">
+              <li class="theme__block_item is-toggle-active" data-tab="tab-horizontal-0" data-color="#fe502d" data-target="#tab-horizontal-0">
+                <a href="#tab-horizontal-0" class="theme__block_link">
+                  Tecnicatura en Análisis de Sistemas y desarrollo de software
+                  <span class="theme__header_line"></span>
+                </a>
+              </li>
+              <div class="theme__block_single_content tab-horizontal-0 is-content-active">
+                Conocé nuestro plan de estudios:
+                <div class="mt-3">
+                  <a href="sistemas.html" class="btn btn-primary btn-sm">Ver plan de estudios</a>
+                </div>
+              </div>
+
+              <li class="theme__block_item" data-tab="tab-horizontal-1" data-color="#007bff" data-target="#tab-horizontal-1">
+                <a href="#tab-horizontal-1" class="theme__block_link">
+                  Profesorado en Ciencias Politicas
+                  <span class="theme__header_line"></span>
+                </a>
+              </li>
+              <div class="theme__block_single_content tab-horizontal-1">
+                Conocé nuestro plan de estudios:
+                <div class="mt-3">
+                  <a href="politicas.html" class="btn btn-primary btn-sm">Ver plan de estudios</a>
+                </div>
+              </div>
+
+              <li class="theme__block_item" data-tab="tab-horizontal-2" data-color="#d4eb8e" data-target="#tab-horizontal-2">
+                <a href="#tab-horizontal-2" class="theme__block_link">
+                  Profesorado en Educación Primaria
+                  <span class="theme__header_line"></span>
+                </a>
+              </li>
+              <div class="theme__block_single_content tab-horizontal-2">
+                Conoce nuestro plan de estudios:
+                <div class="mt-3">
+                  <a href="primaria.html" class="btn btn-primary btn-sm">Ver plan de estudios</a>
+                </div>
+              </div>
+
+              <li class="theme__block_item" data-tab="tab-horizontal-3" data-color="#0095f5" data-target="#tab-horizontal-3">
+                <a href="#tab-horizontal-3" class="theme__block_link">
+                  Tec. Sup. en Bibliotecología y Cs. de la Información
+                  <span class="theme__header_line"></span>
+                </a>
+              </li>
+              <div class="theme__block_single_content tab-horizontal-3">
+                Conocé nuestro plan de estudios:
+                <div class="mt-3">
+                  <a href="bibliotecologia.html" class="btn btn-primary btn-sm">Ver plan de estudios</a>
+                </div>
+              </div>
+            </ul>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-6">
+            <div class="career-aside">
+              <div id="info-0" class="career-info active">
+                <h3>Sobre la Tecnicatura en Sistemas</h3>
+                <p>La Tecnicatura Superior en Análisis de Sistemas forma profesionales capaces de analizar, diseñar y desarrollar soluciones informáticas innovadoras para organizaciones públicas y privadas.</p>
+                <p>Competencias en programación, bases de datos, análisis de requerimientos, testing, redes y gestión de proyectos.</p>
+                <ul>
+                  <li>Duración: 3 años.</li>
+                  <li>Modalidad: Presencial.</li>
+                  <li>Enfoque: desarrollo de software y análisis funcional.</li>
+                </ul>
+              </div>
+
+              <div id="info-1" class="career-info">
+                <h3>Profesorado en Ciencias Políticas</h3>
+                <p>El profesorado de Educación Secundaria en Ciencia Política, se aprueba su nuevo diseño curricular en el año 2015.</p>
+                <h5 class="mt-3">Objetivos de la carrera:</h5>
+                <ul>
+                  <li>Formar profesionales de la educación con sólida formación en Ciencia Política, capaces de desempeñarse en el nivel secundario.</li>
+                  <li>Desarrollar competencias pedagógicas y didácticas específicas para la enseñanza de la Ciencia Política.</li>
+                  <li>Promover el análisis crítico de los fenómenos políticos y sociales desde una perspectiva educativa.</li>
+                </ul>
+              </div>
+
+              <div id="info-2" class="career-info">
+                <h3>Profesorado en Educación Primaria</h3>
+                <p>La Escuela Normal tiene una amplia trayectoria en la formación de maestros. Más de 100 años formando docentes, con lo cual el Profesorado para la enseñanza primaria es uno de los pilares de nuestra Institución, que ha sabido formar a maestras y profesores que se han distinguido en Salta.</p>
+                <p>Dentro de la propuesta de Formación Docente en Educación Primaria, también existe el Profesorado con orientación a Jóvenes y Adultos que se cursa hasta el 3º año conjuntamente con el Profesorado en Educación Primaria.</p>
+                <h5 class="mt-3">Objetivos de la carrera:</h5>
+                <ul>
+                  <li>Identificar las distintas teorías de enseñanza y aprendizaje que sustentan su acción y le dan coherencia.</li>
+                  <li>Facilitar el acceso al conocimiento y su valoración considerando el proceso de transposición didáctica.</li>
+                  <li>Resignificar la práctica a partir de la integración con el saber teórico.</li>
+                </ul>
+              </div>
+
+              <div id="info-3" class="career-info">
+                <h3>Tecnicatura en Bibliotecología</h3>
+                <p>La tecnicatura en Bibliotecología y Ciencia de la Información, se aprueba en el año 2014.</p>
+                <h5 class="mt-3">Objetivos de la carrera:</h5>
+                <ul>
+                  <li>Formar profesionales capacitados para gestionar unidades de información en sus diversas tipologías.</li>
+                  <li>Desarrollar competencias en el manejo de tecnologías de la información aplicadas a la gestión documental y bibliotecaria.</li>
+                  <li>Promover la preservación del patrimonio cultural y documental.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script src="js/script.js"></script>
+
+<script>
+  const items = document.querySelectorAll('.theme__block_item');
+  const infos = document.querySelectorAll('.career-info');
+
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      infos.forEach(el => el.classList.remove('active'));
+      const target = document.getElementById('info-' + i);
+      if (target) target.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
